@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+      'Lucida Sans', Arial, sans-serif;
+  }
+  .stack-item {
+    background-color: rgb(120, 149, 222);
+    border-radius: 5px;
+  }
+  .form-edit{
+    margin-top: 35px;
+  }
+  h2.MuiTypography-root.MuiTypography-h2.css-1sra7t5-MuiTypography-root {
+    margin-bottom: 35px;
+    background-color: violet;
+}
+.MuiContainer-root.MuiContainer-maxWidthSm.css-cuefkz-MuiContainer-root {
+  margin-bottom: 20px;
+  
+}
+.todo-app {
+  background-color: pink;
+}
