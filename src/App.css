@@ -14,12 +14,78 @@
   }
   h2.MuiTypography-root.MuiTypography-h2.css-1sra7t5-MuiTypography-root {
     margin-bottom: 35px;
-    background-color: violet;
+    /* background-color: violet; */
 }
 .MuiContainer-root.MuiContainer-maxWidthSm.css-cuefkz-MuiContainer-root {
   margin-bottom: 20px;
   
 }
 .todo-app {
-  background-color: pink;
+  /* background-color: pink; */
+}
+h2.MuiTypography-root.MuiTypography-h2.css-1sra7t5-MuiTypography-root {
+  /* margin-bottom: 35px; */
+  /* background-color: violet; */
+  /* justify-content: center; */
+  text-align: center;
+  /* color: aliceblue; */
+}
+button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  margin-bottom: 15px;
+  width: 100%;
+
+}
+/* th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-sizeMedium.css-1ygcj2i-MuiTableCell-root {
+  border: 0;
+} */
+
+button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textInherit.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButton-colorInherit.css-1y942vo-MuiButtonBase-root-MuiButton-root {
+  color: white;
+}
+h2.MuiTypography-root.MuiTypography-h2.css-1sra7t5-MuiTypography-root {
+  margin: 15px;
+}
+
+element.style {
+}
+th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignLeft.MuiTableCell-sizeMedium.css-1ygcj2i-MuiTableCell-root {
+    color: RED;
+    /* text-decoration: underline; */
+    font-size: 18px;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.delete-icon.css-i4bv87-MuiSvgIcon-root {
+  color: lightslategray;
+  margin-right: 15px;
+    font-size: 30px;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.edit-icon.css-i4bv87-MuiSvgIcon-root {
+  color: DODGERBLUE;
+  margin-right: 15px;
+  font-size: 30px;
+}
+span.MuiTypography-root.MuiTypography-h8.css-37jdci-MuiTypography-root {
+  margin: 5px;
+  color: red;
+}
+span {
+  color: red;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.delete-icon.css-i4bv87-MuiSvgIcon-root {
+  cursor: pointer;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+  color: #fff;
+  padding: -1px;
+  border: 0;
+  margin-top: -3px;
+  margin-left: 10px;
+}
+.home_banner{
+  height: 300px;
+  color: #fff;
+  margin: 0;
+  background-color: rgb(162, 222, 243);
+}
+h2.MuiTypography-root.MuiTypography-h2.css-1sra7t5-MuiTypography-root {
+  margin: 0;
 }

@@ -1,52 +1,69 @@
-import Todo from './Todo';
-import { Container } from '@mui/material';
-import { useSelector } from 'react-redux';
-
+import Todo from "./Todo";
+import { Button, CircularProgress, Container, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import AddTodo from "../pages/AddTodo";
+import { Route, Routes, Link } from "react-router-dom";
+import { getTodosThunk } from "../store/thunk";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { Backdrop } from '@mui/material';
 function TodoList() {
-  const todos = useSelector((state) => state.users)
+  const dispatch = useDispatch();
+  const [reload, setReload] = useState();
+  useEffect(() => {
+    dispatch(getTodosThunk());
+  }, [dispatch]);
+  const todosCur = useSelector((state) => state.users);
+
+  //đã bắt đc thay đổi của todos khi click add
+  // vấn đề bên mảng chưa map ra đc
+  const [todos, setTodos] = useState(todosCur);
+  useEffect(() => {
+    setTodos(todosCur);
+  }, [todosCur]);
+  const [open, setOpen] = useState(true);
+  // console.log(todos);
+  // loading de choi thoi gian call api
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOpen(false)
+    }, 6000);
+    return () => clearTimeout(timer)
+  }, [])
+  useEffect(() => {
+    const user = localStorage.getItem('admin')
+    console.log(user)
+   }, []);
   return (
-    <Container maxWidth="sm">
-      <Todo
-        todos={todos}
-      />
-    </Container>
-  );
+    <React.Fragment>
+
+
+        <Backdrop
+        sx={{ color: '#fff', backgroundColor:'#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <CircularProgress disableShrink />
+      </Backdrop>
+  { (todos && todos.length !== 0) ?
+     (
+      <Container maxWidth="sm">
+        <Todo todos={todos} />
+      </Container>
+    )
+   
+    : (
+      <Container maxWidth="sm">
+        <Typography variant="h2">Don't Have Element</Typography>
+        {/* link đến Form Add, dùng router  */}
+        <Link to="/AddTodo" style={{ textDecoration: "none" }}>
+          <Button variant="contained">
+            <PersonAddIcon /> &nbsp; Add User Now
+          </Button>
+        </Link>
+      </Container>
+    ) }
+    </React.Fragment>
+    )
 }
 export default TodoList;
-
-// const [todos, setTodos] = useState([]);
-
-//   const addTodo = todo => {
-//     if (!todo.text || /^\s*$/.test(todo.text)) {
-//       return;
-//     }
-
-//     const newTodos = [todo, ...todos];
-
-//     setTodos(newTodos);
-//     console.log(...todos);
-//   };
-
-//   const updateTodo = (todoId, newValue) => {
-//     if (!newValue.text || /^\s*$/.test(newValue.text)) {
-//       return;
-//     }
-
-//     setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)));
-//   };
-
-//   const removeTodo = id => {
-//     const removedArr = [...todos].filter(todo => todo.id !== id);
-
-//     setTodos(removedArr);
-//   };
-
-//   const completeTodo = id => {
-//     let updatedTodos = todos.map(todo => {
-//       if (todo.id === id) {
-//         todo.isComplete = !todo.isComplete;
-//       }
-//       return todo;
-//     });
-//     setTodos(updatedTodos);
-//   };

@@ -4,6 +4,7 @@ export const ADD_TODO = "ADD_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 export const UPDATE_TODO = "UPDATE_TODO";
 export const SET_TODOS = "SET_TODOS";
+export const GET_ONE = "GET_ONE";
 export const GET_TODOS = "GET_TODOS";
 
 export const addTodo = (todo) => ({
@@ -24,6 +25,11 @@ export const updateTodo = (todo) => ({
 export const setTodos = (todos) => ({
     type: SET_TODOS,
     payload: todos
+})
+
+export const getOne = (id) => ({
+    type: GET_ONE,
+    payload: id
 })
 
 export const getTodos = (data) => (dispatch) => {

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import TodoForm from "./TodoForm";
+import React, { createContext, useState } from "react";
 
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
@@ -15,88 +14,92 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
+import LoadingButton from '@mui/lab/LoadingButton';
 //redux
+
 import { useDispatch } from "react-redux";
-import { deleteTodoThunk, addTodosThunk } from "../store/thunk";
+import { deleteTodoThunk, addTodosThunk, getTodosThunk } from "../store/thunk";
+import { Link } from "react-router-dom";
+import { setTodos } from "../store/action";
+import { useEffect } from "react";
+import { CircularProgress } from "@mui/material";
+//use context để truyền cho tk todolist trước khi map
 
 function Todo({ todos }) {
+  //ok vấn đề ở đây
+  // console.log(todos);
   const dispatch = useDispatch();
   const [edit, setEdit] = useState({
     id: null,
     value: "",
   });
   //redux
+  // const [todosList, setTodosList] = useState(todos);
 
-  const handleDeleteRedux = (id) => {
-    dispatch(deleteTodoThunk(id));
-  };
-  //bat thay doi 2 cai input
-  const [inputId, setInputId] = useState("");
-  const [inputName, setInputName] = useState("");
+  const [todosList, setTodosList] = useState(todos);
+  const [loading, setLoading] = useState(false);
 
-  const handleCreateRedux = (userNew) => {
-    dispatch(addTodosThunk(userNew));
+  useEffect(() => {
+    setTodosList(todos);
+  }, [todos]);
+
+  const handleDeleteRedux = async (id) => {
+     // id row cần id của t
+      
+    
+
+
+    const confirm = window.confirm("Do You Want To Delete Todo??");
+    if (confirm) {
+      setLoading(true, id)
+      await dispatch(deleteTodoThunk(id));
+      const newTodos = todos.filter((todoItem) => todoItem.id !== id);
+     
+
+
+
+      dispatch(getTodosThunk());
+      // setTodosList(newTodos);
+      // console.log({ id, newTodos });
+      setTodosList(newTodos);
+      setTimeout(() => setLoading(false), 2000)
+      
+    }
   };
-  const handleChangeID = (e) => {
-    setInputId(e.target.value);
-  };
-  const handleChangeName = (e) => {
-    setInputName(e.target.value);
-  };
-  const handleSubmitRd = (e) => {
-    e.preventDefault();
-    handleCreateRedux({ id: inputId, name: inputName });
-    setInputId("");
-    setInputName("");
-  };
-  //bat su kien input de them moi vao
-  const handleUpdateRedux = (user) => {
-    console.log(user);
-  };
+  // console.log(todos);
   //form react
+
+  
+
 
   return (
     <React.Fragment>
       <Typography variant="h2">List User In Redux</Typography>
+
+      <Link
+        to={{
+          pathname: "/AddTodo",
+        }}
+        style={{ textDecoration: "none" }}
+      >
+        <Button variant="contained">
+          <PersonAddIcon /> &nbsp; Add User in Redux
+        </Button>
+      </Link>
+
       <TableContainer>
         <Table aria-label="simple table">
           <TableHead>
-            <TableRow align="center">
-              <TableCell>
-                <TextField
-                  required
-                  id="outlined-required"
-                  label="Nhập ID"
-                  type="text"
-                  placeholder="Nhan ID"
-                  onChange={handleChangeID}
-                  value={inputId}
-                />
-                &nbsp; &nbsp;
-                <TextField
-                  required
-                  id="outlined-required"
-                  label="Nhập tên"
-                  type="text"
-                  placeholder="Nhập tên "
-                  onChange={handleChangeName}
-                  value={inputName}
-                />
-              </TableCell>
-              <TableCell>
-                <Button variant="contained" onClick={handleSubmitRd}>
-                  <PersonAddIcon /> &nbsp; Add User in Redux
-                </Button>
-              </TableCell>
-            </TableRow>
             <TableRow>
               <TableCell align="left">ID</TableCell>
-              <TableCell align="left">Họ và tên</TableCell>
-              <TableCell align="left">Tùy Chọn</TableCell>
+              <TableCell align="left">Full Name</TableCell>
+              <TableCell align="left">Age</TableCell>
+              <TableCell align="left">Email</TableCell>
+              <TableCell align="left">Edit Options</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {todos.map((todo, index) => (
+            {todosList.map((todo, index) => (
               <TableRow
                 key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -112,15 +115,29 @@ function Todo({ todos }) {
                   </Stack>
                 </TableCell>
                 <TableCell align="left">
+                  <Stack spacing={2}>
+                    <Typography variant="h5">{todo.age}</Typography>
+                  </Stack>
+                </TableCell>
+                <TableCell align="left">
+                  <Stack spacing={2}>
+                    <Typography variant="h5">{todo.email}</Typography>
+                  </Stack>
+                </TableCell>
+                <TableCell align="left">
                   <Container className="icons">
-                    <DeleteForeverIcon
-                      onClick={() => handleDeleteRedux(todo.id)}
-                      className="delete-icon"
-                    />
-                    <EditIcon
-                      onClick={handleUpdateRedux}
-                      className="edit-icon"
-                    />
+                    {/* button delete */}
+                    {/* van de o day tat ca tk row deu dung chung 1 tk loading can index loading voi moi row khac nhau */}
+                    <LoadingButton loading={ loading} >
+                      <DeleteForeverIcon
+                        onClick={() => handleDeleteRedux(todo.id)}
+                        className="delete-icon"
+                      />
+                    </LoadingButton>
+
+                    <Link to={`/update-todo/${todo.id}`}>
+                      <EditIcon className="edit-icon" />
+                    </Link>
                   </Container>
                 </TableCell>
               </TableRow>
@@ -128,7 +145,6 @@ function Todo({ todos }) {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <TodoForm todos={todos}></TodoForm> */}
     </React.Fragment>
   );
 }

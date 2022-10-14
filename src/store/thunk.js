@@ -36,3 +36,12 @@ export const deleteTodoThunk = (id) => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const getOneThunk = (id) => async (dispatch) => {
+    try {
+        await actionsAPI.getOneTodo(id);
+       dispatch(actions.getOne(id))
+   } catch (error) {
+       console.log(error);
+   }
+}

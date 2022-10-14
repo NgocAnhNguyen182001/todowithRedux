@@ -6,8 +6,8 @@ import {
   UPDATE_TODO,
   SET_TODOS,
   GET_TODOS,
+  GET_ONE
 } from "./action";
-
 
 const addTodo = (todoList, todo) => {
   return [todo, ...todoList];
@@ -15,15 +15,17 @@ const addTodo = (todoList, todo) => {
 
 const updateTodo = (todoList, todo) => {
   return todoList.map((todoItem) => {
-   if(todoItem.id === todo.id){
-    return todo
-   }
-   else
-   return todoItem;
-  }) ;
-}
+    if (todoItem.id === todo.id) {
+      return todo;
+    } else return todoItem;
+  });
+};
 const deleteTodo = (todoList, id) => {
   return todoList.filter((todo) => todo.id !== id);
+};
+
+const getOneTodo = (todoList, id) => {
+  return todoList.filter((todo) => todo.id == id);
 };
 
 const initState = {
@@ -37,10 +39,21 @@ const todoReducer = (state = initState, action) => {
         ...state,
         users: [...action.payload],
       };
+
     case GET_TODOS:
       return {
         ...state,
         users: [...action.payload],
+      };
+    case GET_TODOS:
+      return {
+        ...state,
+        users: [...action.payload],
+      };
+    case GET_ONE:
+      return {
+        ...state,
+        users: getOneTodo(state.users, action.payload),
       };
     case ADD_TODO:
       return { ...state, users: addTodo(state.users, action.payload) };
