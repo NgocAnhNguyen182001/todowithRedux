@@ -8,37 +8,24 @@ import NotFound from "../pages/NotFound";
 import TodoList from "../components/TodoList";
 import { Navigate, Route, Routes } from "react-router";
 import PrivateRouter from "./PrivateRouter";
+import SignUp from "../pages/SignUp";
 
 function MyRouter() {
-  
   return (
     <div>
       <Routes>
         <Route path="/" element={<LayoutHome />}>
           <Route index element={<Home />} />
           <Route element={<PrivateRouter />}>
-            <Route
-              path="/AddTodo"
-              element={<AddTodo />}
-              // element={localStore !== null ? <AddTodo /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/todoList"
-              // element={localStore !== null ? <TodoList /> : <Navigate to="/" />}
-              element={<TodoList />}
-            />
-            <Route
-              path="/update-todo/:id"
-              // element={
-              //   localStore !== null ? <UpdateTodo /> : <Navigate to="/" />
-              // }
-              element={<UpdateTodo />}
-            />
+            <Route path="/AddTodo" element={<AddTodo />} />
+            <Route path="/todoList" element={<TodoList />} />
+            <Route path="/update-todo/:id" element={<UpdateTodo />} />
           </Route>
 
           <Route path="*" element={<NotFound></NotFound>} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/singup" element={<SignUp />} />
       </Routes>
     </div>
   );

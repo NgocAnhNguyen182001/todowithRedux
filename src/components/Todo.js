@@ -43,7 +43,7 @@ function Todo({ todos }) {
     setTodosList(todos);
   }, [todos]);
 
-  const handleDeleteRedux = async (id) => {
+  const handleDeleteRedux = async (id ) => {
      // id row cần id của t
       
     
@@ -51,7 +51,7 @@ function Todo({ todos }) {
 
     const confirm = window.confirm("Do You Want To Delete Todo??");
     if (confirm) {
-      setLoading(true, id)
+      setLoading(true)
       await dispatch(deleteTodoThunk(id));
       const newTodos = todos.filter((todoItem) => todoItem.id !== id);
      
@@ -63,7 +63,6 @@ function Todo({ todos }) {
       // console.log({ id, newTodos });
       setTodosList(newTodos);
       setTimeout(() => setLoading(false), 2000)
-      
     }
   };
   // console.log(todos);

@@ -1,6 +1,26 @@
 import * as actionsAPI from "../api/todoApi";
 import * as actions from "./action";
+//account
+export const getAccountThunk = () => async (dispatch) => {
+    try {
+        const response = await actionsAPI.getAccountApi();
+        dispatch(actions.getAccount(response.data))
+    } catch (error) {
+        console.log(error);
+    }
+}
 
+export const addAccountThunk = (account) => async (dispatch) => {
+    try {
+         await actionsAPI.addAccountAPI(account);
+        dispatch(actions.addAccount(account))
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+//todos
 export const getTodosThunk = () => async (dispatch) => {
     try {
         const response = await actionsAPI.getTodoApi();

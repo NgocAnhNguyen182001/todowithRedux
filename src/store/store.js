@@ -6,7 +6,10 @@ import {
   UPDATE_TODO,
   SET_TODOS,
   GET_TODOS,
-  GET_ONE
+  GET_ONE,
+  GET_ACCOUNT,
+  ADD_ACCOUNT,
+  SET_ACCOUNT
 } from "./action";
 
 const addTodo = (todoList, todo) => {
@@ -28,23 +31,44 @@ const getOneTodo = (todoList, id) => {
   return todoList.filter((todo) => todo.id == id);
 };
 
+//account
+const addAccount = (accountList, account) => {
+  return [accountList, ...account]
+}
+
 const initState = {
   users: [],
+  accounts: []
 };
 
 const todoReducer = (state = initState, action) => {
   switch (action.type) {
+    //account
+    case GET_ACCOUNT:
+      return {
+        ...state,
+        accounts: [...action.payload]
+      }
+
+      case ADD_ACCOUNT:
+        return {
+          ...state,
+          accounts: addAccount[state.accounts ,action.payload]
+        }
+
+        case SET_ACCOUNT: 
+        return {
+          ...state,
+          accounts: [...action.payload]
+        }
+
+    //todos
     case SET_TODOS:
       return {
         ...state,
         users: [...action.payload],
       };
 
-    case GET_TODOS:
-      return {
-        ...state,
-        users: [...action.payload],
-      };
     case GET_TODOS:
       return {
         ...state,

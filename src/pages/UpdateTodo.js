@@ -15,8 +15,20 @@ import { updateTodosThunk, getTodosThunk, getOneThunk } from "../store/thunk";
 import { useEffect } from "react";
 import { getOneTodo } from "../api/todoApi";
 import { useState } from "react";
+import * as yup from "yup"
+import { yupResolver } from '@hookform/resolvers/yup';
+
 
 function UpdateTodo() {
+
+  const todoUpdateForm = yup.object().shape({
+    name: yup.string().required(),
+    age: yup.number().required(),
+    email: yup.string().email().required(),
+  }).required();
+ 
+
+
 
   const navigate = useNavigate();
   const {
@@ -24,7 +36,7 @@ function UpdateTodo() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm({resolver: yupResolver(todoUpdateForm)});
   const { id } = useParams();
   const todoList = useSelector((state) => state.users);
   const todoItem = todoList.filter(todo => todo.id == id)
@@ -59,7 +71,7 @@ function UpdateTodo() {
               id="outlined-basic"
               label="Name"
               variant="outlined"
-              {...register("name", { required: true })}
+              {...register("name",)}
             />
             {errors.name && <span>Request input Name</span>}
             <TextField
@@ -68,7 +80,7 @@ function UpdateTodo() {
               variant="outlined"
               {...register("age", { required: true })}
             />
-            {errors.age && <span>Request input Age</span>}
+            {errors.age && <span>Age is Number and required</span>}
 
             <TextField
               id="outlined-basic"
@@ -76,7 +88,7 @@ function UpdateTodo() {
               variant="outlined"
               {...register("email", { required: true })}
             />
-            {errors.email && <span>Request input Email</span>}
+            {errors.email && <span>Email must have @ / ex: naa@gmail.com</span>}
 
             {/* van de o day nha khi nhan link vao thi no chua duoc thuc hien cai button ma nha */}
             {/* <Link to="/" style={{ textDecoration: 'none' }}> */}

@@ -15,7 +15,7 @@ function TodoList() {
     dispatch(getTodosThunk());
   }, [dispatch]);
   const todosCur = useSelector((state) => state.users);
-
+ console.log(todosCur)
   //đã bắt đc thay đổi của todos khi click add
   // vấn đề bên mảng chưa map ra đc
   const [todos, setTodos] = useState(todosCur);
@@ -33,7 +33,6 @@ function TodoList() {
   }, [])
   useEffect(() => {
     const user = localStorage.getItem('admin')
-    console.log(user)
    }, []);
   return (
     <React.Fragment>

@@ -6,7 +6,31 @@ export const UPDATE_TODO = "UPDATE_TODO";
 export const SET_TODOS = "SET_TODOS";
 export const GET_ONE = "GET_ONE";
 export const GET_TODOS = "GET_TODOS";
+export const GET_ACCOUNT = "GET_ACCOUNT";
+export const ADD_ACCOUNT = "ADD_ACCOUNT";
+export const SET_ACCOUNT = "SET_ACCOUNT";
 
+
+//account
+export const getAccount = (data) => (dispatch) => {
+    const accounts = data;
+    let newAccounts = [];
+    for(let account of accounts) {
+        newAccounts.unshift(account);
+    }
+    dispatch(setAccount(newAccounts))
+}
+
+export const setAccount = (accounts) => ({
+    type: SET_ACCOUNT,
+    payload: accounts
+})
+
+export const addAccount = (account) => ({
+    type: ADD_ACCOUNT,
+    payload: account
+})
+//todos
 export const addTodo = (todo) => ({
     type: ADD_TODO,
     payload: todo

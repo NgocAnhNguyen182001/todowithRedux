@@ -12,19 +12,28 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { addTodosThunk, getTodosThunk } from "../store/thunk";
+import * as yup from "yup"
+import { yupResolver } from '@hookform/resolvers/yup';
 
 //use form va yum de validate cai form nhap thong tin
 
 export default function AddTodo(props) {
   const stateLocation = useLocation().state;
-  console.log(stateLocation);
 
   const navigate = useNavigate();
+
+  const todoAddForm = yup.object().shape({
+    name: yup.string().required(),
+    age: yup.number().required(),
+    email: yup.string().email().required(),
+  }).required();
+
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({resolver: yupResolver(todoAddForm)});
 
   const dispatch = useDispatch();
   const handleCreateRedux = async (userNew) => {
@@ -39,6 +48,9 @@ export default function AddTodo(props) {
     //fix dataa de cho dependence no hieu
     
   };
+ 
+  
+
 
   return (
     <div>
@@ -50,24 +62,24 @@ export default function AddTodo(props) {
               id="outlined-basic"
               label="Name"
               variant="outlined"
-              {...register("name", { required: true })}
+              {...register("name")}
             />
             {errors.name && <span>Request input Name</span>}
             <TextField
               id="outlined-basic"
               label="Age"
               variant="outlined"
-              {...register("age", { required: true })}
+              {...register("age")}
             />
-            {errors.age && <span>Request input Age</span>}
+            {errors.age && <span>Age is Number and required</span>}
 
             <TextField
               id="outlined-basic"
               label="Email"
               variant="outlined"
-              {...register("email", { required: true })}
+              {...register("email", {pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i })}
             />
-            {errors.email && <span>Request input Email</span>}
+            {errors.email && <span>Email must have @ / ex: naa@gmail.com</span>}
 
             {/* van de o day nha khi nhan link vao thi no chua duoc thuc hien cai button ma nha */}
             {/* <Link to="/" style={{ textDecoration: 'none' }}> */}

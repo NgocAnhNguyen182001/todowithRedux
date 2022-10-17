@@ -9,6 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PersonIcon from "@mui/icons-material/Person";
+import ChevronLeftSharpIcon from '@mui/icons-material/ChevronLeftSharp';
 
 const AppbarHeader = () => {
   const navigate = useNavigate();
@@ -22,8 +23,6 @@ const AppbarHeader = () => {
   useEffect(() => {
     const user = localStorage.getItem('admin')
     setLocal(user)
-    console.log(user)
-    console.log("ádsadsadsad")
    }, []);
    
   return (
@@ -50,9 +49,18 @@ const AppbarHeader = () => {
               </Button>
               </React.Fragment>
           ) : (
-            <Link to="/login" style={{ textDecoration: "none" }}>
+            <React.Fragment >
+            <Link to="/login" style={{ textDecoration: "none"
+          }}>
               <Button color="inherit">Login</Button>
             </Link>
+            {/* &nbsp; */}
+            <ChevronLeftSharpIcon />
+            {/* &nbsp; */}
+            <Link to="/singup" style={{ textDecoration: "none" }}>
+              <Button color="inherit">Sign Up</Button>
+            </Link>
+            </React.Fragment>
           )}
         </Toolbar>
       </AppBar>
