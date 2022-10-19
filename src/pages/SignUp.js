@@ -6,7 +6,9 @@ import {
   Typography,
   Form,
 } from "@mui/material";
-import React from "react";
+//tost test
+
+import React, { useEffect } from "react";
 import {
   json,
   Link,
@@ -17,9 +19,21 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addAccountThunk, getAccountThunk } from "../store/thunk";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+// import { ToastContainer, toast } from 'react-toastify';
+import { toastSuccess } from "../helpers/toastHelpers";
+
 
 export default function SignUp() {
+  // do sign up vơi sign in nằm ngoài router home nên khi render màn hình cần use Effect để get dữ liệu 1 lần
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAccountThunk());
+  }, [dispatch]);
+
+  const accountList = useSelector((state) => state.accounts);
+
   const singUpYupForm = yup.object().shape({
     account: yup.string().required(),
     password: yup
@@ -29,7 +43,11 @@ export default function SignUp() {
         /^(?=.*[0-9])(?=.{8,})/
         // /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
       ),
-      repassword: yup.string().label('repassword').required().oneOf([yup.ref('password'), null], 'Passwords must match')
+    repassword: yup
+      .string()
+      .label("repassword")
+      .required()
+      .oneOf([yup.ref("password"), null], "Passwords must match"),
   });
 
   const navigate = useNavigate();
@@ -38,22 +56,27 @@ export default function SignUp() {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(singUpYupForm) });
-  const dispatch = useDispatch();
+
+  console.log(accountList);
+  //xu ly onsubmit
   const onSubmit = (data) => {
-    console.log(data)
+    console.log(data);
     const newAccount = {
       account: data.account,
-      passwordid: data.password
-    }
-    const confirm = window.confirm("Do You Want To Sign Up");
-    if (confirm){
-      dispatch(addAccountThunk(newAccount))
-      dispatch(getAccountThunk())
-      navigate("/login")
+      passwordid: data.password,
+    };
+    if (accountList.some((item) => item.account == data.account)) {
+      window.confirm("Accont already exist");
+    } else {
+      const confirm = window.confirm("Do You Want To Sign Up");
+      if (confirm) {
+        dispatch(addAccountThunk(newAccount));
+        dispatch(getAccountThunk());
+        navigate("/login");
+        toastSuccess("Sign Up Successfully")
+      }
     }
   };
-  
-  
 
   return (
     <div>
@@ -97,6 +120,7 @@ export default function SignUp() {
             <Button type="submit" variant="contained">
               &nbsp; Sign Up
             </Button>
+            
             {/* </Link> */}
           </Stack>
         </form>

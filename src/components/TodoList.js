@@ -15,7 +15,6 @@ function TodoList() {
     dispatch(getTodosThunk());
   }, [dispatch]);
   const todosCur = useSelector((state) => state.users);
- console.log(todosCur)
   //đã bắt đc thay đổi của todos khi click add
   // vấn đề bên mảng chưa map ra đc
   const [todos, setTodos] = useState(todosCur);
@@ -46,9 +45,9 @@ function TodoList() {
       </Backdrop>
   { (todos && todos.length !== 0) ?
      (
-      <Container maxWidth="sm">
+      // <Container maxWidth="sm">
         <Todo todos={todos} />
-      </Container>
+      // </Container>
     )
    
     : (

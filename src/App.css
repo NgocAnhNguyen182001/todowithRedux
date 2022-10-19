@@ -89,3 +89,13 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
 h2.MuiTypography-root.MuiTypography-h2.css-1sra7t5-MuiTypography-root {
   margin: 0;
 }
+/* div {
+  /* align-items: center; */
+  /* justify-content: center; */
+  .icon_panner {
+    text-align: center;
+    margin-top: 15px;
+}
+a.go_home {
+  color: white;
+}

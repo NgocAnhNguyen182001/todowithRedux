@@ -17,6 +17,7 @@ import { getOneTodo } from "../api/todoApi";
 import { useState } from "react";
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
+import { toastSuccess } from "../helpers/toastHelpers";
 
 
 function UpdateTodo() {
@@ -59,6 +60,7 @@ function UpdateTodo() {
   const onSubmit = async (data) => {
     await handleUpdateRedux(data);
     navigate("/todoList");
+    toastSuccess("Edit User is Successfull")
     //fix dataa de cho dependenci no hieu
   };
   return (

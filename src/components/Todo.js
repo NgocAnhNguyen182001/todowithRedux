@@ -14,7 +14,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-import LoadingButton from '@mui/lab/LoadingButton';
+import LoadingButton from "@mui/lab/LoadingButton";
 //redux
 
 import { useDispatch } from "react-redux";
@@ -23,6 +23,7 @@ import { Link } from "react-router-dom";
 import { setTodos } from "../store/action";
 import { useEffect } from "react";
 import { CircularProgress } from "@mui/material";
+import { toastSuccess } from "../helpers/toastHelpers";
 //use context để truyền cho tk todolist trước khi map
 
 function Todo({ todos }) {
@@ -43,33 +44,25 @@ function Todo({ todos }) {
     setTodosList(todos);
   }, [todos]);
 
-  const handleDeleteRedux = async (id ) => {
-     // id row cần id của t
-      
-    
-
+  const handleDeleteRedux = async (id) => {
+    // id row cần id của t
 
     const confirm = window.confirm("Do You Want To Delete Todo??");
     if (confirm) {
-      setLoading(true)
+      setLoading(true);
       await dispatch(deleteTodoThunk(id));
       const newTodos = todos.filter((todoItem) => todoItem.id !== id);
-     
-
-
 
       dispatch(getTodosThunk());
       // setTodosList(newTodos);
       // console.log({ id, newTodos });
       setTodosList(newTodos);
-      setTimeout(() => setLoading(false), 2000)
+      setTimeout(() => setLoading(false), 2000);
+      toastSuccess("Delete SuccessFull")
     }
   };
   // console.log(todos);
   //form react
-
-  
-
 
   return (
     <React.Fragment>
@@ -124,10 +117,10 @@ function Todo({ todos }) {
                   </Stack>
                 </TableCell>
                 <TableCell align="left">
-                  <Container className="icons">
+                  {/* <Container className="icons"> */}
                     {/* button delete */}
                     {/* van de o day tat ca tk row deu dung chung 1 tk loading can index loading voi moi row khac nhau */}
-                    <LoadingButton loading={ loading} >
+                    <LoadingButton loading={loading}>
                       <DeleteForeverIcon
                         onClick={() => handleDeleteRedux(todo.id)}
                         className="delete-icon"
@@ -137,7 +130,7 @@ function Todo({ todos }) {
                     <Link to={`/update-todo/${todo.id}`}>
                       <EditIcon className="edit-icon" />
                     </Link>
-                  </Container>
+                  {/* </Container> */}
                 </TableCell>
               </TableRow>
             ))}

@@ -4,8 +4,6 @@ import {
   Stack,
   TextField,
   Typography,
-  Form,
-  checkboxClasses,
 } from "@mui/material";
 import React from "react";
 import { json, Link, unstable_HistoryRouter, useNavigate } from "react-router-dom";
@@ -24,9 +22,10 @@ function Login() {
   useEffect(() => {
     dispatch(getAccountThunk());
   }, [dispatch]);
-  
+  // lay dc mang roi nha
   const accountList = useSelector((state) => state.accounts)
   
+  console.log(accountList)
 
   const logionYupForm = yup.object().shape({
     account: yup.string().required(),
@@ -42,41 +41,21 @@ function Login() {
     formState: { errors },
   } = useForm({resolver: yupResolver(logionYupForm)});
 
-  // function isShallowEqual(obj1, obj2) {
-  //   for (let prop in obj1) {
-  //     if (obj1[prop] !== obj2[prop]) return false;
-  //   }
-
-  //   for (let prop in obj2) {
-  //     if (obj2[prop] !== obj1[prop]) return false;
-  //   }
-
-  //   return true;
-  // }
-
-  // const userLogin = {
-  //   acount: "admin",
-  //   password: "123456",
-  // };
-  const checkAcc = (accounts, data) => {
-    console.log(accounts)
-    if( accounts.account == data.account && accounts.passwordid == data.passwordid)
-     return true;
-     else
-     return false
-  }
 
    
   const onSubmit =  (data) => {
     console.log(data)
-    if (() => accountList.some((accounts) => {
-     return  checkAcc(accounts, data)
-    })) {
+    if (accountList.some((item) =>
+      item.account == data.account && item.passwordid == data.password
+    )) {
       localStorage.setItem('admin', JSON.stringify(data.acount))
       navigate('/todoList')
+      console.log("Dang nhap thanh cong");
     } else 
-    window.alert("tai khoan hoac mat khau khong dung");
-    console.log("tai khoan hoac mat khau khong dung");
+    {
+    window.alert("Account Or Password is False");
+    console.log("Account Or Password is False");
+    }
   };
 
 
@@ -92,8 +71,8 @@ function Login() {
               variant="outlined"
               {...register("account")}
             />
-            {errors.acount && (
-              <Typography variant="h8">Acount is required</Typography>
+            {errors.account && (
+              <Typography variant="h8">Account is required</Typography>
             )}
             <TextField
             type="password"
