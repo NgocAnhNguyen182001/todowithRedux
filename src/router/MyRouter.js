@@ -9,6 +9,8 @@ import TodoList from "../components/TodoList";
 import { Navigate, Route, Routes } from "react-router";
 import PrivateRouter from "./PrivateRouter";
 import SignUp from "../pages/SignUp";
+import ProductSearch from "../search/productSearch";
+import ProductShopping from "../product/productShopping";
 
 function MyRouter() {
   return (
@@ -16,10 +18,12 @@ function MyRouter() {
       <Routes>
         <Route path="/" element={<LayoutHome />}>
           <Route index element={<Home />} />
+          <Route path="/productSearch/:input" element={<ProductSearch />} />
           <Route element={<PrivateRouter />}>
             <Route path="/AddTodo" element={<AddTodo />} />
             <Route path="/todoList" element={<TodoList />} />
             <Route path="/update-todo/:id" element={<UpdateTodo />} />
+            <Route path="/shopping" element={<ProductShopping />} />
           </Route>
 
           <Route path="*" element={<NotFound></NotFound>} />

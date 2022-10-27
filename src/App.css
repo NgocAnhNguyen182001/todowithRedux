@@ -79,12 +79,13 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
   border: 0;
   margin-top: -3px;
   margin-left: 10px;
+  font-size: 30px;
 }
 .home_banner{
-  height: 300px;
-  color: #fff;
+  height: 100%;
+  color:#fff;
+  background-color: #d3d0c9;
   margin: 0;
-  background-color: rgb(162, 222, 243);
 }
 h2.MuiTypography-root.MuiTypography-h2.css-1sra7t5-MuiTypography-root {
   margin: 0;
@@ -98,4 +99,97 @@ h2.MuiTypography-root.MuiTypography-h2.css-1sra7t5-MuiTypography-root {
 }
 a.go_home {
   color: white;
+}
+.search_container{
+  color: #fff;
+}
+.search_container{
+  margin-bottom: 15px;
+}
+.MuiAutocomplete-root.css-1qqsdnr-MuiAutocomplete-root {
+  margin-bottom: 15px;
+}
+.inputsearch {
+  display: flex;
+  /* flex-wrap: nowrap; */
+}
+.buttonSearch {
+  font-size: 20px;
+}
+.buttonSearch {
+  font-size: 46px;
+    background-color: #1976d2;
+    width: 54px;
+    border-radius: 7px;
+    margin-left: 2px;
+    height: 100%;
+}
+.MuiBox-root.css-1jewqar {
+  text-align: center;
+}
+label[data-shrink=false]+.MuiInputBase-formControl .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+  width: 400px;
+  /* margin-right: 13px; */
+}
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  width: 400px;
+}
+
+.button_Login_signup {
+  width: 73%;
+}
+
+button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.button_Login_signup.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  width: 82%;
+}
+.css-1p5q5e5-MuiStack-root {
+  margin-left: 66px;
+}
+span.number_card {
+  padding: 1px 5px;
+  border-radius: 19px;
+  position: relative;
+  background-color: #fff;
+  /* margin-bottom: -40px; */
+  /* font-size: 17px; */
+}
+/* .product_price {
+  display: flex;
+  justify-content: space-between;
+} */
+.css-1t6e9jv-MuiCardActions-root {
+  /* background-color: aliceblue; */
+  justify-content: center;
+  text-align: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  /* display: flex; */
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 8px;
+}
+.inputsearch {
+  margin-bottom: 15px;
+}
+.css-1yhpg23-MuiTableCell-root {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+}
+.css-1p5q5e5-MuiStack-root {
+  margin: 0;
+}
+input.input_amount {
+  width: 24px;
 }

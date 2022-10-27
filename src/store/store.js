@@ -1,5 +1,9 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { composeWithDevTools } from "redux-devtools-extension";
+
 import {
   ADD_TODO,
   DELETE_TODO,
@@ -9,8 +13,13 @@ import {
   GET_ONE,
   GET_ACCOUNT,
   ADD_ACCOUNT,
-  SET_ACCOUNT
+  SET_ACCOUNT,
 } from "./action";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
 
 const addTodo = (todoList, todo) => {
   return [todo, ...todoList];
@@ -33,12 +42,12 @@ const getOneTodo = (todoList, id) => {
 
 //account
 const addAccount = (accountList, account) => {
-  return [accountList, ...account]
-}
+  return [accountList, ...account];
+};
 
 const initState = {
   users: [],
-  accounts: []
+  accounts: [],
 };
 
 const todoReducer = (state = initState, action) => {
@@ -47,20 +56,20 @@ const todoReducer = (state = initState, action) => {
     case GET_ACCOUNT:
       return {
         ...state,
-        accounts: [...action.payload]
-      }
+        accounts: [...action.payload],
+      };
 
-      case ADD_ACCOUNT:
-        return {
-          ...state,
-          accounts: addAccount[state.accounts ,action.payload]
-        }
+    case ADD_ACCOUNT:
+      return {
+        ...state,
+        accounts: addAccount[(state.accounts, action.payload)],
+      };
 
-        case SET_ACCOUNT: 
-        return {
-          ...state,
-          accounts: [...action.payload]
-        }
+    case SET_ACCOUNT:
+      return {
+        ...state,
+        accounts: [...action.payload],
+      };
 
     //todos
     case SET_TODOS:
@@ -90,8 +99,15 @@ const todoReducer = (state = initState, action) => {
       return state;
   }
 };
-const store = createStore(todoReducer, applyMiddleware(thunk));
+const persistedReducer = persistReducer(persistConfig, todoReducer);
+
+const store = createStore(
+  persistedReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+);
 export default store;
+
+export const persistor = persistStore(store);
 
 // export const getAllData = () => {
 //   axios({

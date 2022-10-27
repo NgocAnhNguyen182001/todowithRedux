@@ -117,7 +117,7 @@ export default function SignUp() {
             )}
             {/* van de o day nha khi nhan link vao thi no chua duoc thuc hien cai button ma nha */}
             {/* <Link to="/" style={{ textDecoration: 'none' } condition=}> */}
-            <Button type="submit" variant="contained">
+            <Button className="button_Login_signup" type="submit" variant="contained">
               &nbsp; Sign Up
             </Button>
             

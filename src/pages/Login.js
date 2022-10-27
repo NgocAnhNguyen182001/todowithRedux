@@ -48,7 +48,7 @@ function Login() {
     if (accountList.some((item) =>
       item.account == data.account && item.passwordid == data.password
     )) {
-      localStorage.setItem('admin', JSON.stringify(data.acount))
+      localStorage.setItem('admin', JSON.stringify(data.account))
       navigate('/todoList')
       console.log("Dang nhap thanh cong");
     } else 
@@ -86,7 +86,7 @@ function Login() {
             )}
             {/* van de o day nha khi nhan link vao thi no chua duoc thuc hien cai button ma nha */}
             {/* <Link to="/" style={{ textDecoration: 'none' } condition=}> */}
-            <Button type="submit" variant="contained" >
+            <Button className="button_Login_signup" type="submit" variant="contained" >
               &nbsp; Sign in
             </Button>
             {/* </Link> */}
