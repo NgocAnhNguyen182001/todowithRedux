@@ -48,6 +48,7 @@ const addAccount = (accountList, account) => {
 const initState = {
   users: [],
   accounts: [],
+  products: []
 };
 
 const todoReducer = (state = initState, action) => {

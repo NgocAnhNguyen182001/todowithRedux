@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import ChevronLeftSharpIcon from "@mui/icons-material/ChevronLeftSharp";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import AddIcon from '@mui/icons-material/Add';
 const AppbarHeader = () => {
   const navigate = useNavigate();
   const [local, setLocal] = useState(null);
@@ -26,19 +27,30 @@ const AppbarHeader = () => {
     const user = localStorage.getItem("admin");
     setLocal(user);
   }, []);
-  
-  const [listClothes, setListClothes] = useState([])
+   
+  // const checkAdmin = localStorage.getItem("admin")
+  // const account = localStorage.getItem(`${checkAdmin}`)
+  // console.log(account)
+
+  //biết là cái sản phẩm thay đổi nhưng mà   
+
+  const checkLogin = localStorage.getItem("admin");
+  const checkAmount = localStorage.getItem(`${checkLogin}`);
+  const [listClothes, setListClothes] = useState([checkAmount])
+
+   console.log(checkAmount);
+
   useEffect(() => {
     const checkLogin = localStorage.getItem("admin");
     const checkAmount = localStorage.getItem(`${checkLogin}`);
     const myArray = JSON.parse(checkAmount);
     setListClothes(myArray)
-  }, [])
+  }, [checkAmount])
   
   // const checkAmount = localStorage.getItem("account1");
   
   //  const arrayLength = myArray.length
-  console.log("abc", listClothes);
+  console.log("check", listClothes);
   
   return (
     <Box sx={{ flexGrow: 1 }}>

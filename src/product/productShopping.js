@@ -16,7 +16,7 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import LoadingButton from "@mui/lab/LoadingButton";
 //redux
-
+import { SvgIcon } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { deleteTodoThunk, addTodosThunk, getTodosThunk } from "../store/thunk";
 import { Link } from "react-router-dom";
@@ -24,15 +24,81 @@ import { setTodos } from "../store/action";
 import { useEffect } from "react";
 import { CircularProgress } from "@mui/material";
 import { toastSuccess } from "../helpers/toastHelpers";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveSharpIcon from "@mui/icons-material/RemoveSharp";
+import { array } from "yup";
 function ProductShopping() {
   const checkLogin = localStorage.getItem("admin");
 
   const listClothes = localStorage.getItem(`${checkLogin}`);
   const myArray = JSON.parse(listClothes);
-  console.log(myArray)
+
+  const [listChange, setListChange] = useState(myArray);
+
+  const handleDelete = (name, price) => {
+    const newList = listChange.filter(
+      (item) => item.clothesname !== name && item.price !== price
+    );
+    setListChange(newList);
+    localStorage.setItem(`${checkLogin}`, JSON.stringify(newList));
+  };
+
+  const handleAddAmount = (name, price) => {
+    const newList = listChange.map((item) => {
+      if (item.clothesname !== name && item.price !== price) {
+        return item;
+      } else {
+        return {
+          clothesname: name,
+          price: price,
+          amount: item.amount + 1,
+        };
+      }
+    });
+    setListChange(newList);
+    localStorage.setItem(`${checkLogin}`, JSON.stringify(newList));
+  };
+
+  const handleRemoveAmount = (name, price) => {
+    const newList = listChange.map((item) => {
+      if (item.clothesname !== name && item.price !== price) {
+        return item;
+      } else {
+        //nếu > 1 mới cho - 1
+        if (item.amount > 1) {
+          return {
+            clothesname: name,
+            price: price,
+            amount: item.amount - 1,
+          };
+        }
+        //nhỏ hơn 1 thì trừ nó thành xóa mất r
+        else {
+          if (window.confirm("Do you want to Delete Product from Cart")) {
+            return NaN;
+          } else {
+            return item;
+          }
+        }
+        //khi amount bằng 0 thì cần Alert thông báo bạn có muốn xóa không có thì gọi hàm xóa ở đây
+      }
+    });
+    //nếu mảng đó không có undefine thì mới truyền lên local
+    if(newList.every(item => typeof item !== "number")){
+    setListChange(newList);
+    localStorage.setItem(`${checkLogin}`, JSON.stringify(newList));
+    }
+    //còn có undefine thì xóa phần tử undefine đấy đi song mới sét lên local
+    else{
+     const newListEdit = newList.filter(item => typeof item !== "number")
+     setListChange(newListEdit);
+    localStorage.setItem(`${checkLogin}`, JSON.stringify(newListEdit));
+    }
+  };
+
   return (
     <React.Fragment>
-      {myArray !== null ? (
+      {listChange.length > 0 ? (
         <React.Fragment>
           <Typography variant="h2">List Clothes for Shopping</Typography>
           <TableContainer>
@@ -43,12 +109,15 @@ function ProductShopping() {
                   <TableCell align="left">Product Name</TableCell>
                   <TableCell align="left">Product Price</TableCell>
                   <TableCell align="left">Amount</TableCell>
+                  <TableCell align="left">{`Total (${listChange.reduce(
+                    (total, cur) => total + cur.amount * cur.price,
+                    0
+                  )})$`}</TableCell>
                   <TableCell align="left">Edit Options</TableCell>
-                  <TableCell align="left">Total</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {myArray.map((item, index) => (
+                {listChange.map((item, index) => (
                   <TableRow
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
@@ -64,28 +133,45 @@ function ProductShopping() {
                     </TableCell>
                     <TableCell align="left">
                       <Stack spacing={2}>
-                        <Typography variant="h5">{item.price}</Typography>
+                        <Typography variant="h5">{`${item.price}$`}</Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell align="left">
-                      <Stack spacing={2}>
-                        <Typography variant="h5">{item.amount}</Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell align="left">
-                      <LoadingButton>
-                        <DeleteForeverIcon className="delete-icon" />
-                      </LoadingButton>
+                    <div className="amout_icon">
+                      <TableCell align="left">
+                        <Stack spacing={2}>
+                          <AddIcon className="add_edit_amount"
+                            onClick={() =>
+                              handleAddAmount(item.clothesname, item.price)
+                            }
+                            color="primary"
+                          />
+                          <Typography variant="h5">{item.amount}</Typography>
+                          <RemoveSharpIcon className="add_edit_amount"
+                            onClick={() =>
+                              handleRemoveAmount(item.clothesname, item.price)
+                            }
+                            color="primary"
+                          />
+                        </Stack>
+                      </TableCell>
+                    </div>
 
-                      <Link to={`/update-todo/`}>
-                        <EditIcon className="edit-icon" />
-                      </Link>
-                      {/* </Container> */}
-                    </TableCell>
                     <TableCell align="left">
                       <Stack spacing={2}>
-                        <Typography variant="h5">{item.amount * item.price}</Typography>
+                        <Typography variant="h5">{`${
+                          item.amount * item.price
+                        }$`}</Typography>
                       </Stack>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Button
+                        onClick={() =>
+                          handleDelete(item.clothesname, item.price)
+                        }
+                      >
+                        <DeleteForeverIcon className="delete-icon" />
+                      </Button>
+                      {/* </Container> */}
                     </TableCell>
                   </TableRow>
                 ))}

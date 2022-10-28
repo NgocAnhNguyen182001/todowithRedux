@@ -193,3 +193,16 @@ span.number_card {
 input.input_amount {
   width: 24px;
 }
+.icon_edit_amount{
+  color: black;
+  font-size: 16px;
+}
+.amout_icon {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+
+.add_edit_amount {
+  cursor: pointer;
+}
