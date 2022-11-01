@@ -34,22 +34,6 @@ export default function SignUp() {
 
   const accountList = useSelector((state) => state.accounts);
 
-  const singUpYupForm = yup.object().shape({
-    account: yup.string().required(),
-    password: yup
-      .string()
-      .required("Please Enter your password")
-      .matches(
-        /^(?=.*[0-9])(?=.{8,})/
-        // /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
-      ),
-    repassword: yup
-      .string()
-      .label("repassword")
-      .required()
-      .oneOf([yup.ref("password"), null], "Passwords must match"),
-  });
-
   const navigate = useNavigate();
   const {
     register,
@@ -57,8 +41,26 @@ export default function SignUp() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(singUpYupForm) });
 
-  console.log(accountList);
-  //xu ly onsubmit
+
+
+
+
+  const singUpYupForm = yup.object().shape({
+    account: yup.string().required(),
+    password: yup
+      .string()
+      .required("Please Enter your password")
+      .matches(
+        // /^(?=.*[0-9])(?=.{8,})/
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
+      ),
+    repassword: yup
+      .string()
+      .label("repassword")
+      .required()
+      .oneOf([yup.ref("password"), null], "Passwords must match"),
+  });
+  //xu ly su kien dang ky
   const onSubmit = (data) => {
     console.log(data);
     const newAccount = {

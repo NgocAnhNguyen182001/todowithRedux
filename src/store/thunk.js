@@ -2,19 +2,18 @@ import * as actionsAPI from "../api/todoApi";
 import * as actions from "./action";
 //product
 
-export const getTodosThunk = () => async (dispatch) => {
+export const getProductsThunk = () => async (dispatch) => {
     try {
         //lấy dữ liệu trên local ở đây cho nhanh
-        const 
-        const response = await ;
-        dispatch(actions.getTodos(response.data))
+        const response = await localStorage.getItem("admin");
+        const data = await localStorage.getItem(`${response}`);
+        const dataTrans = JSON.parse(data)
+        //ok này
+        dispatch(actions.getProducts(response ,dataTrans))
     } catch (error) {
         console.log(error);
     }
 }
-
-
-
 
 //account
 export const getAccountThunk = () => async (dispatch) => {
@@ -37,6 +36,14 @@ export const addAccountThunk = (account) => async (dispatch) => {
 
 
 //todos
+export const getTodosThunk = () => async (dispatch) => {
+    try {
+        const response = await actionsAPI.getTodoApi();
+        dispatch(actions.getTodos(response.data))
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const addTodosThunk = (todo) => async (dispatch) => {
     try {

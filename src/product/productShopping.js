@@ -18,7 +18,13 @@ import LoadingButton from "@mui/lab/LoadingButton";
 //redux
 import { SvgIcon } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { deleteTodoThunk, addTodosThunk, getTodosThunk } from "../store/thunk";
+import {
+  deleteTodoThunk,
+  addTodosThunk,
+  getTodosThunk,
+  getAccountThunk,
+  getProductsThunk,
+} from "../store/thunk";
 import { Link } from "react-router-dom";
 import { setTodos } from "../store/action";
 import { useEffect } from "react";
@@ -29,18 +35,22 @@ import RemoveSharpIcon from "@mui/icons-material/RemoveSharp";
 import { array } from "yup";
 function ProductShopping() {
   const checkLogin = localStorage.getItem("admin");
-
+  console.log(checkLogin);
   const listClothes = localStorage.getItem(`${checkLogin}`);
   const myArray = JSON.parse(listClothes);
 
   const [listChange, setListChange] = useState(myArray);
+  const dispatch = useDispatch();
 
   const handleDelete = (name, price) => {
-    const newList = listChange.filter(
-      (item) => item.clothesname !== name && item.price !== price
-    );
-    setListChange(newList);
-    localStorage.setItem(`${checkLogin}`, JSON.stringify(newList));
+    if (window.confirm("Are you sure to Delete Product???")) {
+      const newList = listChange.filter(
+        (item) => item.clothesname !== name && item.price !== price
+      );
+      setListChange(newList);
+      localStorage.setItem(`${checkLogin}`, JSON.stringify(newList));
+      dispatch(getProductsThunk());
+    }
   };
 
   const handleAddAmount = (name, price) => {
@@ -59,6 +69,7 @@ function ProductShopping() {
     localStorage.setItem(`${checkLogin}`, JSON.stringify(newList));
   };
 
+  // Edit Card
   const handleRemoveAmount = (name, price) => {
     const newList = listChange.map((item) => {
       if (item.clothesname !== name && item.price !== price) {
@@ -74,7 +85,7 @@ function ProductShopping() {
         }
         //nhỏ hơn 1 thì trừ nó thành xóa mất r
         else {
-          if (window.confirm("Do you want to Delete Product from Cart")) {
+          if (window.confirm("Do you want to Delete Product")) {
             return NaN;
           } else {
             return item;
@@ -83,16 +94,18 @@ function ProductShopping() {
         //khi amount bằng 0 thì cần Alert thông báo bạn có muốn xóa không có thì gọi hàm xóa ở đây
       }
     });
+
     //nếu mảng đó không có undefine thì mới truyền lên local
-    if(newList.every(item => typeof item !== "number")){
-    setListChange(newList);
-    localStorage.setItem(`${checkLogin}`, JSON.stringify(newList));
+    if (newList.every((item) => typeof item !== "number")) {
+      setListChange(newList);
+      localStorage.setItem(`${checkLogin}`, JSON.stringify(newList));
     }
     //còn có undefine thì xóa phần tử undefine đấy đi song mới sét lên local
-    else{
-     const newListEdit = newList.filter(item => typeof item !== "number")
-     setListChange(newListEdit);
-    localStorage.setItem(`${checkLogin}`, JSON.stringify(newListEdit));
+    else {
+      const newListEdit = newList.filter((item) => typeof item !== "number");
+      setListChange(newListEdit);
+      localStorage.setItem(`${checkLogin}`, JSON.stringify(newListEdit));
+      dispatch(getProductsThunk());
     }
   };
 
@@ -139,14 +152,16 @@ function ProductShopping() {
                     <div className="amout_icon">
                       <TableCell align="left">
                         <Stack spacing={2}>
-                          <AddIcon className="add_edit_amount"
+                          <AddIcon
+                            className="add_edit_amount"
                             onClick={() =>
                               handleAddAmount(item.clothesname, item.price)
                             }
                             color="primary"
                           />
                           <Typography variant="h5">{item.amount}</Typography>
-                          <RemoveSharpIcon className="add_edit_amount"
+                          <RemoveSharpIcon
+                            className="add_edit_amount"
                             onClick={() =>
                               handleRemoveAmount(item.clothesname, item.price)
                             }

@@ -54,15 +54,14 @@ function UpdateTodo() {
     //và bên redux của chưa get về đc bên store redux
     // dispatch(getTodosThunk());
   };
-
-  //dữ liệu nhận về để gán cho cái value input ở đâu????
-
   const onSubmit = async (data) => {
     await handleUpdateRedux(data);
     navigate("/todoList");
     toastSuccess("Edit User is Successfull")
     //fix dataa de cho dependenci no hieu
   };
+
+  
   return (
     <div>
       <Container maxWidth="sm">

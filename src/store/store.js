@@ -14,6 +14,8 @@ import {
   GET_ACCOUNT,
   ADD_ACCOUNT,
   SET_ACCOUNT,
+  GET_PRODUCT,
+  SET_PRODUCT,
 } from "./action";
 
 const persistConfig = {
@@ -32,6 +34,7 @@ const updateTodo = (todoList, todo) => {
     } else return todoItem;
   });
 };
+
 const deleteTodo = (todoList, id) => {
   return todoList.filter((todo) => todo.id !== id);
 };
@@ -45,6 +48,30 @@ const addAccount = (accountList, account) => {
   return [accountList, ...account];
 };
 
+const setProduct = (listOld, dataSet) => {
+  //những tk mà cũ không cùng acc thi du nguyen, con tk giong update theo cai moi
+      //trường hợp chưa có tk acount thì them mới vào sau mảng ban đou
+  
+  return listOld.every(item => item.account !== dataSet.account) ?
+  
+  [...listOld, dataSet]
+    
+  : listOld.map(item => {
+      //trường hợp account không trùng
+    if(item.account !== dataSet.account){
+      return item;
+    }
+    // trường hợp trùng
+    else{
+      //nếu cùng account:
+      return ({
+         account: dataSet.account,
+         product: dataSet.products
+      })
+    }
+  })
+}
+
 const initState = {
   users: [],
   accounts: [],
@@ -53,6 +80,20 @@ const initState = {
 
 const todoReducer = (state = initState, action) => {
   switch (action.type) {
+    //product
+    // case GET_PRODUCT:
+    //   return {
+    //     ...state,
+    //     products: [...action.payload],
+    //   };
+
+    case SET_PRODUCT:
+      return {
+        ...state,
+        products: setProduct(state.products, action.payload),
+      };
+
+
     //account
     case GET_ACCOUNT:
       return {
@@ -63,7 +104,7 @@ const todoReducer = (state = initState, action) => {
     case ADD_ACCOUNT:
       return {
         ...state,
-        accounts: addAccount[(state.accounts, action.payload)],
+        accounts: addAccount(state.accounts, action.payload),
       };
 
     case SET_ACCOUNT:
@@ -79,11 +120,11 @@ const todoReducer = (state = initState, action) => {
         users: [...action.payload],
       };
 
-    case GET_TODOS:
-      return {
-        ...state,
-        users: [...action.payload],
-      };
+    // case GET_TODOS:
+    //   return {
+    //     ...state,
+    //     users: [...action.payload],
+    //   };
     case GET_ONE:
       return {
         ...state,

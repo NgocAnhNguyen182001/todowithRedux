@@ -39,6 +39,7 @@ export default function AddTodo(props) {
   } = useForm({ resolver: yupResolver(todoAddForm) });
 
   const dispatch = useDispatch();
+
   const handleCreateRedux = async (userNew) => {
     await dispatch(addTodosThunk(userNew)); // add in api
     //và bên redux của chưa get về đc bên store redux
@@ -50,7 +51,7 @@ export default function AddTodo(props) {
   console.log(dataRedux);
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log("abcasbcbsa",data);
     if (
       dataRedux.some(
         (item) =>
@@ -60,11 +61,8 @@ export default function AddTodo(props) {
       )
     ) {
       const confirm = window.confirm("Users already exist ");
-      // if(confirm){
-      //   navigate("/AddTodo");
-      // }
+     
     }
-    //fix dataa de cho dependence no hieu
     else {
       handleCreateRedux(data);
       navigate("/todoList");

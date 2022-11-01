@@ -50,7 +50,7 @@ function Login() {
     )) {
       localStorage.setItem('admin', JSON.stringify(data.account))
       navigate('/todoList')
-      console.log("Dang nhap thanh cong");
+      // console.log("Dang nhap thanh cong");
     } else 
     {
     window.alert("Account Or Password is False");

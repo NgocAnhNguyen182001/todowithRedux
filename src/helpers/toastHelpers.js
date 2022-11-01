@@ -14,3 +14,16 @@ export const toastError = error => {
 export const toastSuccess = (message) => {
     toast.success(message)
 }
+
+export const toastSuccessBottomRight = (message) => {
+    toast(`🦄 ${message} !`, {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+}

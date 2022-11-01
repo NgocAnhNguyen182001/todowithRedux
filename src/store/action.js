@@ -11,30 +11,22 @@ export const ADD_ACCOUNT = "ADD_ACCOUNT";
 export const SET_ACCOUNT = "SET_ACCOUNT";
 
 export const GET_PRODUCT = "GET_PRODUCT";
-export const ADD_PRODUCT = "ADD_PRODUCT";
 export const SET_PRODUCT = "SET_PRODUCT";
 
 //product
-export const getProducts = (data) => (dispatch) => {
+export const getProducts = (account, data) => (dispatch) => {
     const products = data;
     let newProducts = [];
     for(let product of products) {
         newProducts.unshift(product);
     }
-    dispatch(setProducts(newProducts))
+    dispatch(setProducts(account,newProducts))
 }
 
-export const setProducts = (products) => ({
+export const setProducts = (account, products) => ({
     type: SET_PRODUCT,
-    payload: products
+    payload: {account, products}
 })
-
-export const addProduct = (product) => ({
-    type: ADD_PRODUCT,
-    payload: product
-})
-
-
 
 //account
 export const getAccount = (data) => (dispatch) => {

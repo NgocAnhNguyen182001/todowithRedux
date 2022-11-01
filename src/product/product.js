@@ -7,20 +7,22 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { toastSuccess } from "../helpers/toastHelpers";
+import { toastSuccess, toastSuccessBottomRight } from "../helpers/toastHelpers";
 import { useState } from "react";
+import { getProductsThunk } from "../store/thunk";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 function Product() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProductsThunk());
+  }, [dispatch]);
+
   const navigate = useNavigate();
   // xử lý cart ở đây
   const [listClothes, setListClothes] = useState([]);
-  console.log(listClothes)
   const checkLogin = localStorage.getItem("admin");
-  //xử lý khi add vào cart
-  const [amount, setAmount] = useState();
-  // const handleAmount = (data) => {
-  //   setAmount(data);
-  // };
 
   const handleAddtoCard = (name, price) => {
     if (checkLogin == null) {
@@ -30,10 +32,12 @@ function Product() {
       console.log({ name, price });
       setListClothes((listClothes) => {
         //nếu tk name vs price vs id mà không trùng thì thực hiện ở đây
-        console.log("pre", listClothes);//vẫn ok
-        console.log(listClothes.every(
-          (item) => item.clothesname !== name && item.price !== price
-        ))
+        console.log("pre", listClothes); //vẫn ok
+        console.log(
+          listClothes.every(
+            (item) => item.clothesname !== name && item.price !== price
+          )
+        );
         // chưa ok ở đây thôi
         if (
           listClothes.every(
@@ -43,17 +47,16 @@ function Product() {
           const itemBehind = {
             clothesname: name,
             price: price,
-            amount: 1
-          }
-          console.log(itemBehind, listClothes)
-          const newListClothes = [
-            ...listClothes,
-            itemBehind
-          ];
-// ????
-          // const dataPush = [...listClothes, ...newListClothes] 
+            amount: 1,
+          };
+          console.log(itemBehind, listClothes);
+          const newListClothes = [...listClothes, itemBehind];
+          // ????
+          // const dataPush = [...listClothes, ...newListClothes]
           const jsonList = JSON.stringify(newListClothes);
           localStorage.setItem(`${checkLogin}`, jsonList);
+          // get lai du lieu ben redux tk newListClothes
+          dispatch(getProductsThunk());
           return newListClothes;
         } else {
           const preCur = listClothes.filter(
@@ -64,25 +67,21 @@ function Product() {
           );
 
           //mảng mới phải là tk pre - đi tk trùng, và đằng sau là tk trùng mới
-          const itemBehind =  newAmount.map(item => ({
+          const itemBehind = newAmount.map((item) => ({
             clothesname: item.clothesname,
             price: item.price,
             amount: item.amount + 1,
-          }))
-          const newListClothes = [
-            ...preCur, ...itemBehind
-            
-          ];
+          }));
+          const newListClothes = [...preCur, ...itemBehind];
 
-          
           const jsonList = JSON.stringify(newListClothes);
           localStorage.setItem(`${checkLogin}`, jsonList);
+          // get lai du lieu ben redux tk newListClothes
+          dispatch(getProductsThunk());
           return newListClothes;
         }
       });
-      toastSuccess("Add To Card Successfull");
-
-      //nếu trùng thì add vào local tk có cái số lượng khác với cái trên là ok
+      toastSuccessBottomRight("Add To Card Successfull");
     }
   };
 

@@ -12,6 +12,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import ChevronLeftSharpIcon from "@mui/icons-material/ChevronLeftSharp";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AddIcon from '@mui/icons-material/Add';
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsThunk } from "../store/thunk";
 const AppbarHeader = () => {
   const navigate = useNavigate();
   const [local, setLocal] = useState(null);
@@ -21,6 +23,9 @@ const AppbarHeader = () => {
     setLocal(null);
     navigate("/");
   };
+  
+  const dispatch = useDispatch()
+
 
   // goi 1 lan get de lay dc local khi render man
   useEffect(() => {
@@ -28,29 +33,29 @@ const AppbarHeader = () => {
     setLocal(user);
   }, []);
    
+  
   // const checkAdmin = localStorage.getItem("admin")
   // const account = localStorage.getItem(`${checkAdmin}`)
   // console.log(account)
 
   //biết là cái sản phẩm thay đổi nhưng mà   
-
-  const checkLogin = localStorage.getItem("admin");
-  const checkAmount = localStorage.getItem(`${checkLogin}`);
-  const [listClothes, setListClothes] = useState([checkAmount])
-
-   console.log(checkAmount);
-
-  useEffect(() => {
-    const checkLogin = localStorage.getItem("admin");
-    const checkAmount = localStorage.getItem(`${checkLogin}`);
-    const myArray = JSON.parse(checkAmount);
-    setListClothes(myArray)
-  }, [checkAmount])
+  const ListProductRd = useSelector((state) => state.products);
+  const checkAccount = localStorage.getItem("admin");
+  
+  const productofAccount = ListProductRd.find(item => item.account == checkAccount)
+  const totalAmountCart =  productofAccount.product.length
+   console.log(totalAmountCart);
+  
+  // useEffect(() => {
+  //   const checkLogin = localStorage.getItem("admin");
+  //   const checkAmount = localStorage.getItem(`${checkLogin}`);
+  //   const myArray = JSON.parse(checkAmount);
+  //   setListClothes(myArray)
+  // }, [])
   
   // const checkAmount = localStorage.getItem("account1");
   
   //  const arrayLength = myArray.length
-  console.log("check", listClothes);
   
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -77,7 +82,7 @@ const AppbarHeader = () => {
             <React.Fragment>
               <Link to="/shopping" style={{ textDecoration: "none" }}>
                 <ShoppingCartIcon></ShoppingCartIcon>
-                <span className="number_card">{listClothes !== null ? listClothes.length : 0}</span>
+                <span className="number_card">{productofAccount.product !== null && productofAccount.product !== undefined ? totalAmountCart : 0}</span>
               </Link>
               <PersonIcon></PersonIcon>
               <Button onClick={logout} color="inherit">

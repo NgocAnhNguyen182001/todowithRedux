@@ -121,18 +121,18 @@ a.go_home {
     background-color: #1976d2;
     width: 54px;
     border-radius: 7px;
-    margin-left: 2px;
+    margin-left: 20px;
     height: 100%;
 }
 .MuiBox-root.css-1jewqar {
   text-align: center;
 }
 label[data-shrink=false]+.MuiInputBase-formControl .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
-  width: 400px;
+  width: 450px;
   /* margin-right: 13px; */
 }
 .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
-  width: 400px;
+  width: 450px;
 }
 
 .button_Login_signup {
@@ -205,4 +205,7 @@ input.input_amount {
 
 .add_edit_amount {
   cursor: pointer;
+}
+h2.MuiTypography-root.MuiTypography-h2.css-1sra7t5-MuiTypography-root {
+  padding-right: 78px;
 }
